@@ -1,1 +1,0 @@
-// This file will be deleted as email sending will be handled by AWS SES
