@@ -14,6 +14,7 @@ import { z } from "zod";
 import { MessageCircle, CheckCircle2, ArrowRight } from "lucide-react";
 import { format } from "date-fns";
 import { useSubmitVoiceNote } from "@/hooks/use-submit-voice-note";
+import { Success } from "./success";
 
 const emailSchema = z.string().email("Please enter a valid email address");
 
@@ -51,34 +52,7 @@ export default function Home() {
   };
 
   if (screenState === "success") {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-muted/50 p-8 flex items-center justify-center">
-        <Card className="max-w-md w-full border-2 border-primary/20 shadow-xl hover:shadow-2xl transition-all duration-300">
-          <CardContent className="pt-8 px-8 text-center space-y-8">
-            <div className="mx-auto w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center animate-fade-in">
-              <CheckCircle2 className="w-8 h-8 text-primary" />
-            </div>
-            <div className="space-y-3">
-              <h2 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
-                Voice Note Scheduled!
-              </h2>
-              <p className="text-muted-foreground leading-relaxed">
-                Your message has been saved and will be delivered to your future self at the scheduled time. 
-                We'll send a confirmation to <span className="font-medium text-foreground">{email}</span>.
-              </p>
-            </div>
-            <Button
-              onClick={handleRecordAgain}
-              className="w-full gap-2 py-6 text-lg font-medium hover:scale-[1.02] transition-all duration-300"
-              size="lg"
-            >
-              Record Another Message
-              <ArrowRight className="w-5 h-5" />
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
-    );
+    return <Success handleRecordAgain={handleRecordAgain} email={email} />;
   }
 
   return (
@@ -89,8 +63,8 @@ export default function Home() {
             Voice Note to Future You
           </h1>
           <p className="text-xl text-muted-foreground max-w-lg mx-auto leading-relaxed">
-            Record a message today, receive it in the future. 
-            A time capsule for your thoughts and memories.
+            Record a message today, receive it in the future. A time capsule for
+            your thoughts and memories.
           </p>
         </div>
 
@@ -130,7 +104,9 @@ export default function Home() {
 
           <Card className="border-2 border-muted shadow-xl hover:shadow-2xl transition-all duration-300">
             <DatePicker
-              onDateSelect={(date) => setDeliveryDate(format(date, "yyyy-MM-dd"))}
+              onDateSelect={(date) =>
+                setDeliveryDate(format(date, "yyyy-MM-dd"))
+              }
             />
           </Card>
 
