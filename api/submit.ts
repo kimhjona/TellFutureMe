@@ -30,7 +30,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     // // Send confirmation email
-    // await sendConfirmationEmail(email, fileName, deliveryDate);
 
     // Return success
     return res.status(200).json({ success: true, fileName });
