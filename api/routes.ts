@@ -2,10 +2,22 @@ import express, { type Express } from "express";
 import { createServer, type Server } from "http";
 import fetch from "node-fetch";
 import { z } from "zod";
-import { supabase, supabaseBucketName } from "./supabase";
+import { createClient } from '@supabase/supabase-js'
 import dotenv from 'dotenv'
 
 dotenv.config()
+
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+if (!supabaseUrl || !supabaseKey) {
+  throw new Error("Missing Supabase environment variables");
+}
+
+export const supabase = createClient(supabaseUrl, supabaseKey)
+
+export const supabaseBucketName = "TellFutureMe";
+
 
 
 // Define a schema for voice note validation
@@ -25,6 +37,7 @@ export function registerRoutes(app: Express): Server {
         email: req.body.email,
         deliveryDate: req.body.deliveryDate,
         fileName: req.body.fileName,
+        sent: false
       });
 
       const { data, error } = await supabase
