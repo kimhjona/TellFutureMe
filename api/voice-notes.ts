@@ -30,9 +30,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
   
     try {
-      const { audioData, email, deliveryDate } = req.body;
+      const { fileName, email, deliveryDate } = req.body;
 
-      if (!audioData || !email || !deliveryDate) {
+      if (!fileName || !email || !deliveryDate) {
         return res.status(400).json({ error: 'Missing required fields' });
       }
 
