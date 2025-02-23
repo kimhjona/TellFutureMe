@@ -1,12 +1,13 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+const path = require("path");
 
 const app = express();
 
 // Increase body-parser limit to 50MB for handling large audio files
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ extended: false, limit: '50mb' }));
+app.use(express.json({ limit: '5mb' }));
+app.use(express.urlencoded({ extended: false, limit: '5mb' }));
 
 app.use((req, res, next) => {
   const start = Date.now();
@@ -38,6 +39,12 @@ app.use((req, res, next) => {
   next();
 });
 
+// Move your index.html to a 'public' folder
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "index.html"));
+});
+
+
 (async () => {
   const server = registerRoutes(app);
 
@@ -60,3 +67,5 @@ app.use((req, res, next) => {
     log(`serving on port ${PORT}`);
   });
 })();
+
+module.exports = app;
