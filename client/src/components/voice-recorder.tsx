@@ -224,7 +224,7 @@ export function VoiceRecorder({ onRecordingComplete }: VoiceRecorderProps) {
                 }
                 className="w-full h-[80px] rounded-md bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 hover:bg-primary/90 text-primary-foreground shadow-lg overflow-hidden border border-gray-700/50 group z-10"
               >
-                <span className="absolute inset-0 flex items-center justify-start w-[75%] text-lg font-medium pl-8 border-r border-gray-700/50 transition-all duration-500">
+                <span className="absolute inset-0 flex items-center justify-start w-[75%] text-lg sm:text-lg text-base font-medium pl-8 border-r border-gray-700/50 transition-all duration-500">
                   {isRecording
                     ? "Recording in progress..."
                     : isPlaying
@@ -233,7 +233,7 @@ export function VoiceRecorder({ onRecordingComplete }: VoiceRecorderProps) {
                     ? "Listen to recording"
                     : "Click to start recording"}
                 </span>
-                <div className="absolute inset-0 left-auto flex items-center justify-center w-[25%] right-0">
+                <div className="absolute inset-0 left-auto hidden sm:flex items-center justify-center w-[25%] right-0">
                   <div className="relative w-10 h-10">
                     <div
                       className={`absolute inset-0 flex items-center justify-center transition-all duration-500 ${

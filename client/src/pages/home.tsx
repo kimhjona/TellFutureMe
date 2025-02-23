@@ -74,7 +74,6 @@ export default function Home() {
         <div className="max-w-2xl mx-auto space-y-12">
           <div className="text-center space-y-6">
             {/* Updated title with better visibility */}
-            <div className="absolute inset-0 bg-background/50 backdrop-blur-sm rounded-lg -m-2" />
             <h1 className="text-6xl font-bold relative">
               <span className="absolute inset-0" />
               <span className="relative bg-clip-text">
