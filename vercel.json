@@ -8,8 +8,8 @@
       "dest": "/api/$1"
     },
     {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "src": "/client/(.*)",
+      "dest": "client/index.html"
     }
   ]
 }
