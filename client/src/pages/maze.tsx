@@ -32,27 +32,25 @@ const NeonIsometricMaze: React.FC = () => {
       // Optimization 4: Increase cell size (reduce grid density)
       const s = Math.min(canvas.width, canvas.height) / 12;
       // Optimization 5: Reduce grid size
-      const g = Math.ceil(canvas.width / s);
+      const gridWidth = Math.ceil(canvas.width / s); // renamed from g
       const h = Math.ceil(canvas.height / (s * 0.5));
       const w = canvas.width / 2;
       const v = canvas.height / 2;
 
-      // Clear canvas with solid color instead of transparent
-      x.fillStyle = "#E3D8F1";
+      // Background color edit
+      x.fillStyle = "#95B8D1";
       x.fillRect(0, 0, canvas.width, canvas.height);
 
       for (let y = -h; y < h; y += 2) {
-        // Optimization 6: Skip cells
-        for (let i = -g; i < g; i += 2) {
+        for (let i = -gridWidth; i < gridWidth; i += 2) {
+          // updated reference
           const p = w + ((i - y) * s) / 2;
           const q = v + ((i + y) * s) / 4;
           const m = Math.sqrt(i * i + y * y);
-          const n = Math.sqrt(g * g + h * h);
+          const n = Math.sqrt(gridWidth * gridWidth + h * h); // updated reference
           const e = 1 - m / n;
-          // Optimization 7: Simplify animation
           const f = s * e * Math.sin(m * 0.3 + t);
 
-          // Optimization 8: Simplified shapes
           x.beginPath();
           x.moveTo(p, q - f);
           x.lineTo(p + s / 2, q - s / 2 - f);
@@ -62,14 +60,15 @@ const NeonIsometricMaze: React.FC = () => {
           x.lineTo(p, q);
           x.closePath();
 
-          // Optimization 9: Simpler colors
-          x.fillStyle = `rgba(0,${Math.floor(255 * e)},255,0.5)`;
+          // Cell fill style edit
+          x.fillStyle = `rgba(${Math.floor(230 * e)},${Math.floor(
+            180 * e
+          )},${Math.floor(200 * e)},0.25)`;
           x.fill();
 
-          // Optimization 10: Reduced line drawing
+          // Line style edit
           if (m < n / 2) {
-            // Only draw lines for closer cells
-            x.strokeStyle = "rgba(255,255,255,0.2)";
+            x.strokeStyle = "rgba(255,200,200,0.08)";
             x.stroke();
           }
         }
