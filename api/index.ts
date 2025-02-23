@@ -1,7 +1,7 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
-const path = require("path");
+import path from "path";
 
 const app = express();
 
@@ -68,4 +68,4 @@ app.get("/", (req, res) => {
   });
 })();
 
-module.exports = app;
+export default app;
