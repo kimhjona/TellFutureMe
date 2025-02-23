@@ -103,7 +103,7 @@ export function VoiceRecorder({ onRecordingComplete }: VoiceRecorderProps) {
       setAudioStream(stream);
 
       const options = {
-        mimeType: "audio/webm;codecs=opus",
+        mimeType: getMimeType(),
         audioBitsPerSecond: 32000, // 32 kbps
       };
 
@@ -324,3 +324,23 @@ export function VoiceRecorder({ onRecordingComplete }: VoiceRecorderProps) {
     </>
   );
 }
+
+const getMimeType = () => {
+  const types = [
+    "audio/webm;codecs=opus",
+    "audio/mp3",
+    "audio/ogg",
+    "audio/wav",
+    "audio/aac",
+  ];
+
+  for (const type of types) {
+    if (MediaRecorder.isTypeSupported(type)) {
+      console.log(`Browser supports ${type}`);
+      return type;
+    }
+  }
+
+  // Fallback
+  return undefined; // Let the browser choose its default
+};

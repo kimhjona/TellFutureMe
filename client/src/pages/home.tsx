@@ -15,6 +15,7 @@ import { MessageCircle, CheckCircle2, ArrowRight } from "lucide-react";
 import { format } from "date-fns";
 import { useSubmitVoiceNote } from "@/hooks/use-submit-voice-note";
 import { Success } from "./success";
+import NeonIsometricMaze from "./maze";
 
 const emailSchema = z.string().email("Please enter a valid email address");
 
@@ -52,79 +53,104 @@ export default function Home() {
   };
 
   if (screenState === "success") {
-    return <Success handleRecordAgain={handleRecordAgain} email={email} />;
+    return (
+      <>
+        <div className="fixed inset-0 maze">
+          <NeonIsometricMaze />
+        </div>
+        <div className="z-10">
+          <Success handleRecordAgain={handleRecordAgain} email={email} />
+        </div>
+      </>
+    );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-muted/50 p-8">
-      <div className="max-w-2xl mx-auto space-y-12">
-        <div className="text-center space-y-6">
-          <h1 className="text-6xl font-bold tracking-tight bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
-            Voice Note to Future You
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-lg mx-auto leading-relaxed">
-            Record a message today, receive it in the future. A time capsule for
-            your thoughts and memories.
-          </p>
-        </div>
-
-        <div className="space-y-8">
-          <Card className="border-2 border-muted shadow-xl hover:shadow-2xl transition-all duration-300">
-            <VoiceRecorder
-              onRecordingComplete={(data) => {
-                setAudioData(data);
-              }}
-            />
-          </Card>
-
-          <Card className="border-2 border-muted shadow-xl hover:shadow-2xl transition-all duration-300">
-            <CardHeader className="space-y-2">
-              <CardTitle className="flex items-center gap-3 text-xl">
-                <MessageCircle className="w-6 h-6 text-primary" />
-                Your Contact
-              </CardTitle>
-              <CardDescription className="text-base">
-                Enter your email to receive your future voice note
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Input
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className={`text-lg py-6 transition-all duration-300 focus:ring-2 focus:ring-primary/20 ${
-                  email && !emailSchema.safeParse(email).success
-                    ? "border-destructive"
-                    : ""
-                }`}
-              />
-            </CardContent>
-          </Card>
-
-          <Card className="border-2 border-muted shadow-xl hover:shadow-2xl transition-all duration-300">
-            <DatePicker
-              onDateSelect={(date) =>
-                setDeliveryDate(format(date, "yyyy-MM-dd"))
-              }
-            />
-          </Card>
-
-          <Button
-            onClick={handleSubmit}
-            className="w-full font-medium text-xl py-8 transition-all duration-300 hover:scale-[1.02] shadow-xl disabled:opacity-70"
-            disabled={isPending}
-          >
-            {isPending ? (
-              <span className="flex items-center gap-2">
-                <span className="animate-spin">⏳</span> Scheduling...
+    <>
+      <div className="fixed inset-0 maze">
+        <NeonIsometricMaze />
+      </div>
+      <div className="min-h-screen p-8 z-10 relative">
+        <div className="max-w-2xl mx-auto space-y-12">
+          <div className="text-center space-y-6">
+            {/* Updated title with better visibility */}
+            <h1 className="text-6xl font-bold text-glow relative">
+              <span className="absolute inset-0" />
+              <span className="relative bg-clip-text">
+                Voice Note to Future You
               </span>
-            ) : (
-              "Send to Future"
-            )}
-          </Button>
+            </h1>
+
+            {/* Updated subheader with better visibility */}
+            <div className="relative">
+              {/* Semi-transparent backdrop */}
+              <div className="absolute inset-0 bg-background/50 backdrop-blur-sm rounded-lg -m-2" />
+              <p className="text-xl relative text-foreground/90 max-w-lg mx-auto leading-relaxed drop-shadow-md">
+                Record a message today, receive it in the future. A time capsule
+                for your thoughts and memories.
+              </p>
+            </div>
+          </div>
+
+          {/* Add backdrop blur to the cards container */}
+          <div className="space-y-8 relative">
+            <Card className="border-2 border-muted shadow-xl hover:shadow-2xl transition-all duration-300 bg-background/90 backdrop-blur-sm">
+              <VoiceRecorder
+                onRecordingComplete={(data) => {
+                  setAudioData(data);
+                }}
+              />
+            </Card>
+
+            <Card className="border-2 border-muted shadow-xl hover:shadow-2xl transition-all duration-300 bg-background/90 backdrop-blur-sm">
+              <CardHeader className="space-y-2">
+                <CardTitle className="flex items-center gap-3 text-xl">
+                  <MessageCircle className="w-6 h-6 text-primary" />
+                  Your Contact
+                </CardTitle>
+                <CardDescription className="text-base">
+                  Enter your email to receive your future voice note
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Input
+                  type="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className={`text-lg py-6 transition-all duration-300 focus:ring-2 focus:ring-primary/20 ${
+                    email && !emailSchema.safeParse(email).success
+                      ? "border-destructive"
+                      : ""
+                  }`}
+                />
+              </CardContent>
+            </Card>
+
+            <Card className="border-2 border-muted shadow-xl hover:shadow-2xl transition-all duration-300 bg-background/90 backdrop-blur-sm">
+              <DatePicker
+                onDateSelect={(date) =>
+                  setDeliveryDate(format(date, "yyyy-MM-dd"))
+                }
+              />
+            </Card>
+
+            <Button
+              onClick={handleSubmit}
+              className="w-full font-medium text-xl py-8 transition-all duration-300 hover:scale-[1.02] shadow-xl disabled:opacity-70 backdrop-blur-sm"
+              disabled={isPending}
+            >
+              {isPending ? (
+                <span className="flex items-center gap-2">
+                  <span className="animate-spin">⏳</span> Scheduling...
+                </span>
+              ) : (
+                "Send to Future"
+              )}
+            </Button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
