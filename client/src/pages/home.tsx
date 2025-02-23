@@ -137,7 +137,7 @@ export default function Home() {
 
             <Button
               onClick={handleSubmit}
-              className="w-full font-medium text-xl py-8 transition-all duration-300 hover:scale-[1.02] shadow-xl disabled:opacity-70 backdrop-blur-sm"
+              className="w-full font-medium text-xl py-8 transition-all duration-300 hover:scale-[1.02] shadow-xl disabled:opacity-70 backdrop-blur-sm my-32px"
               disabled={isPending}
             >
               {isPending ? (
@@ -145,7 +145,7 @@ export default function Home() {
                   <span className="animate-spin">⏳</span> Scheduling...
                 </span>
               ) : (
-                "Send to Future"
+                "Send to Future Me"
               )}
             </Button>
           </div>
