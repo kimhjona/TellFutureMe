@@ -1,4 +1,4 @@
-export async function deliverDaily() {
+export async function POST() {
     const SUPABASE_FUNCTION_URL = 'https://sidjczqgkzxemruklsdd.supabase.co/functions/v1/deliverMessages';
     const BEARER_TOKEN = process.env.SUPABASE_API_KEY || '';  // Get from environment variable
     
@@ -27,4 +27,4 @@ export async function deliverDaily() {
             headers: { 'Content-Type': 'application/json' }
         });
     }
-}
+} 
