@@ -123,7 +123,7 @@ export function VoiceRecorder({ onRecordingComplete }: VoiceRecorderProps) {
       mediaRecorder.current.onstop = async () => {
         try {
           const audioBlob = new Blob(audioChunks.current, {
-            type: "audio/webm",
+            type: getMimeType(),
           });
           console.log(
             "Created audio blob of size:",
@@ -186,8 +186,10 @@ export function VoiceRecorder({ onRecordingComplete }: VoiceRecorderProps) {
   };
 
   const playRecording = () => {
+    console.log({ audioRef, audioURL });
     if (audioRef.current && audioURL) {
       if (audioRef.current.paused) {
+        console.log("play", audioRef.current.play());
         audioRef.current.play();
       } else {
         audioRef.current.pause();
@@ -214,61 +216,71 @@ export function VoiceRecorder({ onRecordingComplete }: VoiceRecorderProps) {
         <div className="space-y-8">
           <div className="space-y-4 min-h-[185px] flex flex-col justify-between">
             <div className="relative w-full max-w-[300px] mx-auto mt-0 z-10">
-              <Button
-                onClick={
-                  audioURL
-                    ? playRecording
-                    : isRecording
-                    ? stopRecording
-                    : startRecording
-                }
-                className="w-full h-[80px] rounded-md bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 hover:bg-primary/90 text-primary-foreground shadow-lg overflow-hidden border border-gray-700/50 group z-10"
-              >
-                <span className="absolute inset-0 flex items-center justify-start w-[75%] text-lg sm:text-lg text-sm font-medium pl-8 transition-all duration-500">
-                  {isRecording
-                    ? "Recording in progress..."
-                    : isPlaying
-                    ? "Listening to recording..."
-                    : audioURL
-                    ? "Listen to recording"
-                    : "Click to start recording"}
-                </span>
-                <div className="absolute inset-0 left-auto hidden sm:flex items-center justify-center w-[25%] right-0">
-                  <div className="relative w-10 h-10">
-                    <div
-                      className={`absolute inset-0 flex items-center justify-center transition-all duration-500 ${
-                        isRecording || audioURL
-                          ? "opacity-0 rotate-90 scale-0"
-                          : "opacity-100 rotate-0 scale-100 group-hover:scale-[2.5]"
-                      }`}
-                    >
-                      <Mic className="w-10 h-10" />
-                    </div>
-                    <div
-                      className={`absolute inset-0 flex items-center justify-center transition-all duration-500 ${
-                        isRecording
-                          ? "opacity-100 rotate-0 scale-100 group-hover:scale-[2.5]"
-                          : "opacity-0 rotate-90 scale-0"
-                      }`}
-                    >
-                      <Square className="w-8 h-8" />
-                    </div>
-                    <div
-                      className={`absolute inset-0 flex items-center justify-center transition-all duration-500 ${
-                        audioURL && !isRecording
-                          ? "opacity-100 rotate-0 scale-100 group-hover:scale-[2.5]"
-                          : "opacity-0 rotate-90 scale-0"
-                      }`}
-                    >
-                      {isPlaying ? (
-                        <Pause className="w-8 h-8" />
-                      ) : (
-                        <Play className="w-8 h-8" />
-                      )}
+              {/* Record button - shown when not recording and no audio is available */}
+              {!isRecording && !audioURL && (
+                <Button
+                  id="record-button"
+                  onClick={startRecording}
+                  className="w-full h-[80px] rounded-md bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 hover:bg-primary/90 text-primary-foreground shadow-lg overflow-hidden border border-gray-700/50 group z-10"
+                >
+                  <span className="absolute inset-0 flex items-center justify-start w-[75%] text-lg sm:text-lg text-sm font-medium pl-8 transition-all duration-500">
+                    Click to start recording
+                  </span>
+                  <div className="absolute inset-0 left-auto hidden sm:flex items-center justify-center w-[25%] right-0">
+                    <div className="relative w-10 h-10">
+                      <div className="absolute inset-0 flex items-center justify-center transition-all duration-500 opacity-100 rotate-0 scale-100 group-hover:scale-[2.5]">
+                        <Mic className="w-10 h-10" />
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Button>
+                </Button>
+              )}
+
+              {/* Stop recording button - shown when recording is in progress */}
+              {isRecording && (
+                <Button
+                  id="stop-button"
+                  onClick={stopRecording}
+                  className="w-full h-[80px] rounded-md bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 hover:bg-primary/90 text-primary-foreground shadow-lg overflow-hidden border border-gray-700/50 group z-10"
+                >
+                  <span className="absolute inset-0 flex items-center justify-start w-[75%] text-lg sm:text-lg text-sm font-medium pl-8 transition-all duration-500">
+                    Recording in progress...
+                  </span>
+                  <div className="absolute inset-0 left-auto hidden sm:flex items-center justify-center w-[25%] right-0">
+                    <div className="relative w-10 h-10">
+                      <div className="absolute inset-0 flex items-center justify-center transition-all duration-500 opacity-100 rotate-0 scale-100 group-hover:scale-[2.5]">
+                        <Square className="w-8 h-8" />
+                      </div>
+                    </div>
+                  </div>
+                </Button>
+              )}
+
+              {/* Play/pause button - shown when recording is complete */}
+              {audioURL && !isRecording && (
+                <Button
+                  id="play-button"
+                  onClick={playRecording}
+                  className="w-full h-[80px] rounded-md bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 hover:bg-primary/90 text-primary-foreground shadow-lg overflow-hidden border border-gray-700/50 group z-10"
+                >
+                  <span className="absolute inset-0 flex items-center justify-start w-[75%] text-lg sm:text-lg text-sm font-medium pl-8 transition-all duration-500">
+                    {isPlaying
+                      ? "Listening to recording..."
+                      : "Listen to recording"}
+                  </span>
+                  <div className="absolute inset-0 left-auto hidden sm:flex items-center justify-center w-[25%] right-0">
+                    <div className="relative w-10 h-10">
+                      <div className="absolute inset-0 flex items-center justify-center transition-all duration-500 opacity-100 rotate-0 scale-100 group-hover:scale-[2.5]">
+                        {isPlaying ? (
+                          <Pause className="w-8 h-8" />
+                        ) : (
+                          <Play className="w-8 h-8" />
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </Button>
+              )}
             </div>
 
             {isRecording && (
@@ -328,7 +340,7 @@ export function VoiceRecorder({ onRecordingComplete }: VoiceRecorderProps) {
 const getMimeType = () => {
   const types = [
     "audio/webm;codecs=opus",
-    "audio/mp3",
+    "audio/mp4",
     "audio/ogg",
     "audio/wav",
     "audio/aac",

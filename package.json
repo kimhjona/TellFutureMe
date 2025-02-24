@@ -4,7 +4,7 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "dev": "vercel dev",
+    "dev": "tsx api/index.ts",
     "build": "vite build && esbuild api/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
     "start": "vercel",
     "check": "tsc",
