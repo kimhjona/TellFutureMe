@@ -15,7 +15,7 @@
   "crons": [
     {
       "path": "/api/deliver-daily",
-      "schedule": "* * * * *"
+      "schedule": "0 0 * * *"
     }
   ]
 }

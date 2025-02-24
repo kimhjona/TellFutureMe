@@ -1,34 +1,30 @@
-// export async function POST() {
-//     const SUPABASE_FUNCTION_URL = 'https://sidjczqgkzxemruklsdd.supabase.co/functions/v1/deliverMessages';
-//     const BEARER_TOKEN = process.env.SUPABASE_API_KEY || '';  // Get from environment variable
+export async function POST() {
+    const SUPABASE_FUNCTION_URL = 'https://sidjczqgkzxemruklsdd.supabase.co/functions/v1/deliverMessages';
+    const BEARER_TOKEN = process.env.SUPABASE_API_KEY || '';  // Get from environment variable
     
-//     try {
-//         const response = await fetch(SUPABASE_FUNCTION_URL, {
-//             method: 'POST',
-//             headers: {
-//                 'Authorization': `Bearer ${BEARER_TOKEN}`,
-//                 'Content-Type': 'application/json'
-//             },
-//         });
+    try {
+        const response = await fetch(SUPABASE_FUNCTION_URL, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${BEARER_TOKEN}`,
+                'Content-Type': 'application/json'
+            },
+        });
 
-//         if (!response.ok) {
-//             throw new Error(`Error: ${response.status} ${response.statusText}`);
-//         }
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status} ${response.statusText}`);
+        }
 
-//         const data = await response.json();
-//         return new Response(JSON.stringify(data), {
-//             status: 200,
-//             headers: { 'Content-Type': 'application/json' }
-//         });
-//     } catch (error) {
-//         console.error('Failed to deliver messages:', error);
-//         return new Response(JSON.stringify({ error: 'Failed to deliver messages' }), {
-//             status: 500,
-//             headers: { 'Content-Type': 'application/json' }
-//         });
-//     }
-// }   
-
-export function GET(request: Request) {
-    return new Response('Hello from Vercel!');
-  }
+        const data = await response.json();
+        return new Response(JSON.stringify(data), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' }
+        });
+    } catch (error) {
+        console.error('Failed to deliver messages:', error);
+        return new Response(JSON.stringify({ error: 'Failed to deliver messages' }), {
+            status: 500,
+            headers: { 'Content-Type': 'application/json' }
+        });
+    }
+}   
