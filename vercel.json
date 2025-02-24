@@ -11,5 +11,11 @@
       "src": "/client/(.*)",
       "dest": "client/index.html"
     }
+  ],
+  "crons": [
+    {
+      "path": "/api/deliver-daily",
+      "schedule": "* * * * *"
+    }
   ]
 }
