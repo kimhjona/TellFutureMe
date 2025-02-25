@@ -1,6 +1,7 @@
-export async function POST() {
+export async function GET() {
+    console.log("deliver daily starting...")
     const SUPABASE_FUNCTION_URL = 'https://sidjczqgkzxemruklsdd.supabase.co/functions/v1/deliverMessages';
-    const BEARER_TOKEN = process.env.SUPABASE_API_KEY || '';  // Get from environment variable
+    const BEARER_TOKEN = process.env.SUPABASE_KEY || '';  // Get from environment variable
     
     try {
         const response = await fetch(SUPABASE_FUNCTION_URL, {
@@ -10,6 +11,8 @@ export async function POST() {
                 'Content-Type': 'application/json'
             },
         });
+
+        console.log("response received")
 
         if (!response.ok) {
             throw new Error(`Error: ${response.status} ${response.statusText}`);

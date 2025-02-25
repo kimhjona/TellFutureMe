@@ -47,7 +47,7 @@ serve(async () => {
             const { data, error } = await supabase
             .storage
             .from("TellFutureMe")
-            .createSignedUrl(file_name, 604800, {download: true})
+            .createSignedUrl(file_name, 604800)
 
             if (error) throw error;
 
