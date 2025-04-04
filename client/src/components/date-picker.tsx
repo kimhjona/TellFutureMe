@@ -93,7 +93,7 @@ export function DatePicker({ onDateSelect }: DatePickerProps) {
               className="h-8"
             >
               or choose a{" "}
-              {mode === DatePickerMode.Duration ? "duration" : "date"}
+              {mode === DatePickerMode.Duration ? "date" : "duration"}
             </Button>
           </div>
 
@@ -152,7 +152,10 @@ export function DatePicker({ onDateSelect }: DatePickerProps) {
                       onDateSelect(newDate); // Call the onDateSelect with the new date
                     }}
                   >
-                    {Array.from({ length: getDaysInMonth(defaultMonth, defaultYear) }, (_, i) => i + 1).map((day) => (
+                    {Array.from(
+                      { length: getDaysInMonth(defaultMonth, defaultYear) },
+                      (_, i) => i + 1
+                    ).map((day) => (
                       <option key={day} value={day}>
                         {day}
                       </option>
@@ -204,7 +207,7 @@ const getDaysInMonth = (month: string, year: number): number => {
     8: 30, // September
     9: 31, // October
     10: 30, // November
-    11: 31  // December
+    11: 31, // December
   };
   return daysMap[monthIndex];
 };
